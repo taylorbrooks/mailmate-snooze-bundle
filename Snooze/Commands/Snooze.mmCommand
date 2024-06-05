@@ -1,0 +1,12 @@
+{
+	uuid          = "D6659846-3E6C-4546-A4DF-50D0A5E05F85";
+	name          = "Snooze";
+	input         = "none";
+	output        = "actions";
+	keyEquivalent = "^z";
+	script        =
+	'#!/bin/bash
+        PICK=`"${MM_BUNDLE_SUPPORT}/bin/pick.sh"`
+        "${MM_BUNDLE_SUPPORT}/bin/snooze" $PICK
+        ';
+}

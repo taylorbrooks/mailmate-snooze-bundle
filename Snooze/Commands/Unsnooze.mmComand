@@ -1,0 +1,11 @@
+{
+	uuid          = "D15FCE1D-A66B-455A-AA09-47F31F9F534F";
+	name          = "Unsnooze";
+	input         = "none";
+	output        = "actions";
+	keyEquivalent = "^Z";
+	script        =
+	'#!/bin/bash
+        "${MM_BUNDLE_SUPPORT}/bin/snooze" xx
+        ';
+}

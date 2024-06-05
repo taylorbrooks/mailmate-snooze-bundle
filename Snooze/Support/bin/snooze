@@ -1,0 +1,54 @@
+#!/usr/bin/ruby
+
+require 'json'
+require_relative 'parse_input'
+
+def base_action(snooze_header, notify_message)
+  {
+    actions: [
+      {
+        type: 'changeHeaders',
+        headers: { "x-snooze": snooze_header }
+      },
+      {
+        type: 'notify',
+        formatString: notify_message
+      }
+    ]
+  }
+end
+
+def unsnooze
+  action = base_action('', 'YELLO!')
+  action[:actions] << {
+    type: 'changeFlags',
+    disable: ['$snoozed']
+  }
+
+  action
+end
+
+def snooze
+  date = parse_input(ARGV[0])
+
+  formatted_date = date.strftime('%Y-%m-%d %H:%M:%S')
+  message = "Snoozed until #{date.strftime('%A, %b %-d %Y')}"
+
+  action = base_action(formatted_date, message)
+
+  action[:actions] << {
+    type: 'changeFlags',
+    enable: ['$snoozed']
+  }
+
+  action[:actions] << {
+    type: 'moveMessage',
+    mailbox: 'archive'
+  }
+
+  action
+end
+
+message = ARGV[0] == 'xx' ? unsnooze : snooze
+
+puts JSON.dump(message)
